@@ -12,7 +12,6 @@ contract MockERC20 is ERC20 {
         _name = name_;
         _symbol = symbol_;
         _decimals = decimals_;
-
     }
 
     function name() public view override returns (string memory) {

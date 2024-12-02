@@ -34,14 +34,14 @@ enum InstructionType {
 contract MockFlowScope is IFlowScope {
     ITokenFlow tokenFlow;
 
-    uint instructionIndex;
+    uint256 instructionIndex;
     InstructionType[] instructionTypes;
-    
-    uint moveInIndex;
-    uint moveOutIndex;
-    uint reentryIndex;
-    uint revertIndex;
-    
+
+    uint256 moveInIndex;
+    uint256 moveOutIndex;
+    uint256 reentryIndex;
+    uint256 revertIndex;
+
     MoveIn[] moveInInstructions;
     MoveOut[] moveOutInstructions;
     Reentry[] reentryInstructions;
@@ -64,10 +64,10 @@ contract MockFlowScope is IFlowScope {
         instructionTypes.push(InstructionType.MoveOut);
     }
 
-     function addReentry(IFlowScope flowScope, bytes calldata data) external {
+    function addReentry(IFlowScope flowScope, bytes calldata data) external {
         reentryInstructions.push(Reentry({flowScope: flowScope, data: data}));
         instructionTypes.push(InstructionType.Reentry);
-     }
+    }
 
     function addRevert(string calldata reason) external {
         revertInstructions.push(Revert({reason: reason}));
@@ -75,29 +75,33 @@ contract MockFlowScope is IFlowScope {
     }
 
     function enter(
-        bytes28 /* selectorExtension */,
+        bytes28, /* selectorExtension */
         Constraint[] calldata constraints,
-        address /* payer */,
+        address, /* payer */
         bytes calldata /* data */
     ) external {
-        // Execute current instruction
-        if (instructionIndex < instructionTypes.length) {
-            InstructionType iType = instructionTypes[instructionIndex];
-            
+        // Execute all instructions
+        for (uint256 i = 0; i < instructionTypes.length; i++) {
+            InstructionType iType = instructionTypes[i];
+
             if (iType == InstructionType.MoveIn) {
-                tokenFlow.moveIn(moveInInstructions[moveInIndex].token, moveInInstructions[moveInIndex].amount, moveInInstructions[moveInIndex].recipient);
+                tokenFlow.moveIn(
+                    moveInInstructions[moveInIndex].token,
+                    moveInInstructions[moveInIndex].amount,
+                    moveInInstructions[moveInIndex].recipient
+                );
                 moveInIndex++;
             } else if (iType == InstructionType.MoveOut) {
                 tokenFlow.moveOut(moveOutInstructions[moveOutIndex].token, moveOutInstructions[moveOutIndex].amount);
                 moveOutIndex++;
             } else if (iType == InstructionType.Reentry) {
-                ITokenFlow(msg.sender).main(constraints, reentryInstructions[reentryIndex].flowScope, reentryInstructions[reentryIndex].data);
+                ITokenFlow(msg.sender).main(
+                    constraints, reentryInstructions[reentryIndex].flowScope, reentryInstructions[reentryIndex].data
+                );
                 reentryIndex++;
             } else if (iType == InstructionType.Revert) {
                 revert(revertInstructions[revertIndex].reason);
             }
-            
-            instructionIndex++;
         }
     }
 }

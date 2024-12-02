@@ -3,18 +3,17 @@ pragma solidity ^0.8.28;
 
 import {EfficientHashLib} from "solady/utils/EfficientHashLib.sol";
 
-
 /// @notice An helper library to manage netflows in a transient storage.
 /// @dev the netflows are stored as an array of (token, value) pairs, with length in the first slot of the netflows.
 library TransientNetflows {
     /// @notice The slot where the nonce for this set of netflows is stored.
     /// Equivalent to bytes32(uint256(keccak256("TokenFlow.netflows")) - 1)
-    bytes32 internal constant NETFLOWS_SLOT = 0xb8ea23bb4fe1252fa49dff7d6168221ebfea7b5c55753f63740c76a259eb8f88; 
-
+    bytes32 internal constant NETFLOWS_SLOT = 0xb8ea23bb4fe1252fa49dff7d6168221ebfea7b5c55753f63740c76a259eb8f88;
 
     /// @notice The slot where the counter of negative netflows is stored.
     /// Equivalent to bytes32(uint256(keccak256("TokenFlow.negativeNetflowsCounter")) - 1)
-    bytes32 internal constant NEGATIVE_NETFLOWS_COUNTER_SLOT = 0x14f6a9c5e25725efcb69b4d15bdae41110c6a38bf78cda4b45b3539514d3fc55;
+    bytes32 internal constant NEGATIVE_NETFLOWS_COUNTER_SLOT =
+        0x14f6a9c5e25725efcb69b4d15bdae41110c6a38bf78cda4b45b3539514d3fc55;
 
     /// @notice Sets the netflow for a token. If the netflow is not present, it is created.
     /// @param token The token to set the netflow for.
@@ -70,9 +69,8 @@ library TransientNetflows {
         }
     }
 
-
-    function deriveAddressSlot(address token) internal view returns (bytes32 ) {
-        uint slot;
+    function deriveAddressSlot(address token) internal view returns (bytes32) {
+        uint256 slot;
         assembly ("memory-safe") {
             slot := tload(NETFLOWS_SLOT)
         }

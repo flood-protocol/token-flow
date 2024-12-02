@@ -1,12 +1,10 @@
-// SPDX-License-Identifier: MIT 
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
-
 
 struct Constraint {
     address token;
     int256 value;
 }
-
 
 /// @title IFlowScope
 /// @notice A flow scope is a contract that is called by the TokenFlow contract to execute a transaction.
@@ -17,7 +15,8 @@ interface IFlowScope {
     /// @param constraints The netflows constraints of the token flow.
     /// @param payer The payer of the token flow. Whoever is paying for the token flow.
     /// @param data Data to be passed to the entrypoint.
-    function enter(bytes28 selectorExtension, Constraint[] calldata constraints, address payer, bytes calldata data) external;
+    function enter(bytes28 selectorExtension, Constraint[] calldata constraints, address payer, bytes calldata data)
+        external;
 }
 
 /// @notice Reverts when the netflows constraints are violated.
@@ -50,7 +49,4 @@ interface ITokenFlow {
 
     /// @notice A helper function to get the current flow payer.
     function payer() external view returns (address);
-
-
-   
 }
