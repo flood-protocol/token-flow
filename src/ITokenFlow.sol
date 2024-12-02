@@ -49,4 +49,9 @@ interface ITokenFlow {
 
     /// @notice A helper function to get the current flow payer.
     function payer() external view returns (address);
+
+    /// @notice A helper function to get the current netflow of a token.
+    /// @param token The token to get the netflow of.
+    /// @return The current netflow of the token.
+    function getNetflow(address token) external view returns (int256);
 }

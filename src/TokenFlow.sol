@@ -53,7 +53,7 @@ contract TokenFlow is ITokenFlow {
      /// @inheritdoc ITokenFlow
     function moveOut(address token, uint128 amount) external requireScope(INTERNAL_SCOPE) {
         TransientNetflows.add(token, int256(uint256(amount)));
-
+        
         token.safeTransferFrom(msg.sender, payer, amount);
     }
 
@@ -62,6 +62,11 @@ contract TokenFlow is ITokenFlow {
         TransientNetflows.add(token, -int256(uint256(amount)));
 
         token.safeTransferFrom(payer, to, amount);
+    }
+
+    /// @inheritdoc ITokenFlow
+    function getNetflow(address token) external view returns (int256) {
+        return TransientNetflows.get(token);
     }
 
     function initTransientState(Constraint[] calldata constraints, address payer_) private {

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.28;
 
+import {console} from "forge-std/Test.sol";
 import {IFlowScope, Constraint} from "src/ITokenFlow.sol";
 import {ITokenFlow} from "src/ITokenFlow.sol";
 
@@ -80,6 +81,7 @@ contract MockFlowScope is IFlowScope {
         address, /* payer */
         bytes calldata /* data */
     ) external {
+        
         // Execute all instructions
         for (uint256 i = 0; i < instructionTypes.length; i++) {
             InstructionType iType = instructionTypes[i];
@@ -92,8 +94,14 @@ contract MockFlowScope is IFlowScope {
                 );
                 moveInIndex++;
             } else if (iType == InstructionType.MoveOut) {
-                tokenFlow.moveOut(moveOutInstructions[moveOutIndex].token, moveOutInstructions[moveOutIndex].amount);
-                moveOutIndex++;
+                console.log("Netflow before MoveOut:", tokenFlow.getNetflow(moveOutInstructions[moveOutIndex].token));
+                try tokenFlow.moveOut(moveOutInstructions[moveOutIndex].token, moveOutInstructions[moveOutIndex].amount) {
+                    moveOutIndex++;
+                } catch {
+                    console.log("MoveOut failed, but state change persisted");
+                    // Handle failure silently
+                    console.log("Netflow:", tokenFlow.getNetflow(moveOutInstructions[moveOutIndex].token));
+                }
             } else if (iType == InstructionType.Reentry) {
                 ITokenFlow(msg.sender).main(
                     constraints, reentryInstructions[reentryIndex].flowScope, reentryInstructions[reentryIndex].data
@@ -104,4 +112,35 @@ contract MockFlowScope is IFlowScope {
             }
         }
     }
+
+    // function enter(
+    //     bytes28, /* selectorExtension */
+    //     Constraint[] calldata constraints,
+    //     address, /* payer */
+    //     bytes calldata /* data */
+    // ) external {
+    //     // Execute all instructions
+    //     for (uint256 i = 0; i < instructionTypes.length; i++) {
+    //         InstructionType iType = instructionTypes[i];
+
+    //         if (iType == InstructionType.MoveIn) {
+    //             tokenFlow.moveIn(
+    //                 moveInInstructions[moveInIndex].token,
+    //                 moveInInstructions[moveInIndex].amount,
+    //                 moveInInstructions[moveInIndex].recipient
+    //             );
+    //             moveInIndex++;
+    //         } else if (iType == InstructionType.MoveOut) {
+    //             tokenFlow.moveOut(moveOutInstructions[moveOutIndex].token, moveOutInstructions[moveOutIndex].amount);
+    //             moveOutIndex++;
+    //         } else if (iType == InstructionType.Reentry) {
+    //             ITokenFlow(msg.sender).main(
+    //                 constraints, reentryInstructions[reentryIndex].flowScope, reentryInstructions[reentryIndex].data
+    //             );
+    //             reentryIndex++;
+    //         } else if (iType == InstructionType.Revert) {
+    //             revert(revertInstructions[revertIndex].reason);
+    //         }
+    //     }
+    // }
 }
