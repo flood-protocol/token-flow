@@ -55,7 +55,7 @@ contract TokenFlow is ITokenFlow, ReentrancyGuardTransient {
     }
 
     /// @inheritdoc ITokenFlow
-    function moveIn(address token, address to, uint128 amount) external requireScope(INTERNAL_SCOPE) {
+    function moveIn(address token, address to, uint128 amount) external requireScope(INTERNAL_SCOPE) nonReentrant {
         TransientNetflows.add(token, -int256(uint256(amount)));
 
         token.safeTransferFrom(payer, to, amount);
