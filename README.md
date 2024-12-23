@@ -17,7 +17,7 @@ In spirit, this is similar to a flash loan from the user's balance, with the key
 
 ## How It Works
 
-<div class="mermaid">
+```mermaid
 sequenceDiagram
     participant User
     participant TokenFlow
@@ -37,9 +37,7 @@ sequenceDiagram
     Note over TokenFlow: Verify netflow constraints
     TokenFlow-->>User: return
     deactivate TokenFlow
-</div>
-
-
+```
 
 ## Examples
 
