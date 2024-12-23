@@ -43,9 +43,9 @@ interface ITokenFlow {
     /// @notice Move tokens from the current flow payer into the specified address.
     /// @dev Calling this function outside of a flow scope will revert.
     /// @param token The token to move.
-    /// @param amount The amount of tokens to move.
     /// @param to The address to move the tokens to.
-    function moveIn(address token, uint128 amount, address to) external;
+    /// @param amount The amount of tokens to move.
+    function moveIn(address token, address to, uint128 amount) external;
 
     /// @notice A helper function to get the current flow payer.
     function payer() external view returns (address);

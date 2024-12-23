@@ -42,7 +42,7 @@ contract TokenFlowTest is Test {
 
     function test_revertCallingMoveInFromExternalScope() public {
         vm.expectRevert(InvalidScope.selector);
-        tokenFlow.moveIn(address(token1), 1 ether, address(this));
+        tokenFlow.moveIn(address(token1), address(this), 1 ether);
     }
 
     function test_revertCallingMoveOutFromExternalScope() public {
