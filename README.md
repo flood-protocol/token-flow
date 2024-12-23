@@ -118,6 +118,9 @@ TokenFlow enables several key optimizations and use cases:
    - Works with standard ERC20 tokens
    - Works with fee-on-transfer tokens
 
-## License
 
-UNLICENSED
+
+## Acknowledgements
+
+- [0x Allowance Holder](https://github.com/0xProject/0x-settler/tree/master/src/allowanceholder) for the idea of transient storage allowance.
+- [Permit2](https://github.com/Uniswap/permit2)
