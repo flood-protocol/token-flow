@@ -119,6 +119,10 @@ TokenFlow enables several key optimizations and use cases:
    - Works with fee-on-transfer tokens
 
 
+## Audits
+
+TokenFlow has got through a [Cantina](https://cantina.xyz/) audit.
+
 
 ## Acknowledgements
 
