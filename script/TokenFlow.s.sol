@@ -10,7 +10,6 @@ contract TokenFlowScript is Create3 {
 
     function setUp() public {}
 
-    
     function run() public {
         bytes memory creationCode = type(TokenFlow).creationCode;
 

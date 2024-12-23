@@ -80,7 +80,6 @@ contract MockFlowScope is IFlowScope {
         address, /* payer */
         bytes calldata /* data */
     ) external {
-        
         // Execute all instructions
         for (uint256 i = 0; i < instructionTypes.length; i++) {
             InstructionType iType = instructionTypes[i];
