@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.28;
 
-import {Test, console2 as console} from "forge-std/Test.sol";
+import {Test} from "forge-std/Test.sol";
 import {TransientNetflows} from "src/TransientNetflows.sol";
 
 contract TransientNetflowsTest is Test {
@@ -82,7 +82,7 @@ contract TransientNetflowsTest is Test {
         assertFalse(TransientNetflows.arePositive());
     }
 
-    function test_are_positive_empty() public {
+    function test_are_positive_empty() public view {
         // Test arePositive() with no entries
         assertTrue(TransientNetflows.arePositive(), "should be positive with no entries");
     }

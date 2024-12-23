@@ -3,7 +3,7 @@ pragma solidity ^0.8.28;
 
 import {EfficientHashLib} from "solady/utils/EfficientHashLib.sol";
 
-/// @notice An helper library to manage netflows in a transient storage.
+/// @notice A helper library to manage netflows in a transient storage.
 /// @dev the netflows are stored as an array of (token, value) pairs, with length in the first slot of the netflows.
 library TransientNetflows {
     /// @notice The slot where the nonce for this set of netflows is stored.

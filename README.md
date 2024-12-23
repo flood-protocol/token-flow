@@ -39,7 +39,7 @@ sequenceDiagram
     deactivate TokenFlow
 </div>
 
-[View diagram](./docs/flow-diagram.svg)
+
 
 ## Examples
 

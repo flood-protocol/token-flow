@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.28;
 
-import {Test, console} from "forge-std/Test.sol";
+import {Test} from "forge-std/Test.sol";
 import {ERC20} from "solady/tokens/ERC20.sol";
 import {TokenFlow} from "src/TokenFlow.sol";
 import {ITokenFlow, Constraint, BadNetflows, InvalidScope, IFlowScope} from "src/ITokenFlow.sol";

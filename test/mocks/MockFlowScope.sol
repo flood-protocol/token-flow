@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.28;
 
-import {console} from "forge-std/Test.sol";
 import {IFlowScope, Constraint} from "src/ITokenFlow.sol";
 import {ITokenFlow} from "src/ITokenFlow.sol";
 
@@ -94,14 +93,8 @@ contract MockFlowScope is IFlowScope {
                 );
                 moveInIndex++;
             } else if (iType == InstructionType.MoveOut) {
-                console.log("Netflow before MoveOut:", tokenFlow.getNetflow(moveOutInstructions[moveOutIndex].token));
-                try tokenFlow.moveOut(moveOutInstructions[moveOutIndex].token, moveOutInstructions[moveOutIndex].amount) {
-                    moveOutIndex++;
-                } catch {
-                    console.log("MoveOut failed, but state change persisted");
-                    // Handle failure silently
-                    console.log("Netflow:", tokenFlow.getNetflow(moveOutInstructions[moveOutIndex].token));
-                }
+                tokenFlow.moveOut(moveOutInstructions[moveOutIndex].token, moveOutInstructions[moveOutIndex].amount);
+                moveOutIndex++;
             } else if (iType == InstructionType.Reentry) {
                 ITokenFlow(msg.sender).main(
                     constraints, reentryInstructions[reentryIndex].flowScope, reentryInstructions[reentryIndex].data
